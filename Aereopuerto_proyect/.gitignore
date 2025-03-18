@@ -1,10 +1,27 @@
+# Archivos de ayuda
 HELP.md
-target/
+
+# Carpetas de compilación y dependencias
+/target/
+/build/
+/.mvn/
+/.gradle/
+
+# Maven Wrapper
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-### STS ###
+# Configuraciones sensibles
+application.properties
+application.yml
+application-*.properties
+.env
+secrets.json
+
+# Archivos generados por STS (Spring Tool Suite)
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +30,22 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+# Archivos generados por IntelliJ IDEA
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# Archivos generados por NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# Archivos generados por VS Code
 .vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
