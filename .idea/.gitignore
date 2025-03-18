@@ -1,8 +1,36 @@
-# Default ignored files
+# Directorios de compilación y binarios
+/target/
+/build/
+*.class
+*.jar
+*.war
+
+# Dependencias
+/.mvn/
+/.gradle/
+/.idea/
+/.vscode/
+/node_modules/
+
+# Configuraciones sensibles
+application.properties
+application.yml
+application-*.properties
+.env
+secrets.json
+
+# Archivos de sistema y específicos del IDE
+/.DS_Store
+/.classpath
+/.project
+/.settings/
+
 /shelf/
 /workspace.xml
+
 # Editor-based HTTP Client requests
 /httpRequests/
+
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
