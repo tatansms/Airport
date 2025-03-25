@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -18,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PasajeroServiceTest {
+class PasajeroServiceImpTest {
 
     @Mock
     private PasajeroRepository pasajeroRepository;
 
     @InjectMocks
-    private PasajeroService pasajeroService;
+    private PasajeroServiceImp pasajeroServiceImp;
 
     private Pasajero pasajero;
 
@@ -36,7 +35,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerTodosOrdenadosPorNombre() {
         when(pasajeroRepository.findPasajerosAllByOrderByNombreAsc()).thenReturn(Arrays.asList(pasajero));
-        List<Pasajero> resultado = pasajeroService.obtenerTodosOrdenadosPorNombre();
+        List<Pasajero> resultado = pasajeroServiceImp.obtenerTodosOrdenadosPorNombre();
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
         verify(pasajeroRepository, times(1)).findPasajerosAllByOrderByNombreAsc();
@@ -45,7 +44,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerPorId() {
         when(pasajeroRepository.findPasajeroById(1L)).thenReturn(pasajero);
-        Optional<Pasajero> resultado = pasajeroService.obtenerPorId(1L);
+        Optional<Pasajero> resultado = pasajeroServiceImp.obtenerPorId(1L);
         assertTrue(resultado.isPresent());
         assertEquals("Sebastian Lopez", resultado.get().getNombre());
         verify(pasajeroRepository, times(1)).findPasajeroById(1L);
@@ -54,7 +53,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerPorNombre() {
         when(pasajeroRepository.findPasajeroByNombre("Sebastian Lopez")).thenReturn(pasajero);
-        Optional<Pasajero> resultado = pasajeroService.obtenerPorNombre("Sebastian Lopez");
+        Optional<Pasajero> resultado = pasajeroServiceImp.obtenerPorNombre("Sebastian Lopez");
         assertTrue(resultado.isPresent());
         assertEquals("Sebastian Lopez", resultado.get().getNombre());
         verify(pasajeroRepository, times(1)).findPasajeroByNombre("Sebastian Lopez");
@@ -63,7 +62,7 @@ class PasajeroServiceTest {
     @Test
     void guardar() {
         when(pasajeroRepository.save(any(Pasajero.class))).thenReturn(pasajero);
-        Pasajero resultado = pasajeroService.guardar(pasajero);
+        Pasajero resultado = pasajeroServiceImp.guardar(pasajero);
         assertNotNull(resultado);
         assertEquals("Sebastian Lopez", resultado.getNombre());
         verify(pasajeroRepository, times(1)).save(pasajero);
@@ -72,14 +71,14 @@ class PasajeroServiceTest {
     @Test
     void eliminar() {
         doNothing().when(pasajeroRepository).deleteById(1L);
-        pasajeroService.eliminar(1L);
+        pasajeroServiceImp.eliminar(1L);
         verify(pasajeroRepository, times(1)).deleteById(1L);
     }
 
     @Test
     void contarPasajeros() {
         when(pasajeroRepository.countPassengers()).thenReturn(10L);
-        Long resultado = pasajeroService.contarPasajeros();
+        Long resultado = pasajeroServiceImp.contarPasajeros();
         assertEquals(10L, resultado);
         verify(pasajeroRepository, times(1)).countPassengers();
     }
@@ -87,7 +86,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerUltimos5Pasajeros() {
         when(pasajeroRepository.getLast5Passengers()).thenReturn(Arrays.asList(pasajero));
-        List<Pasajero> resultado = pasajeroService.obtenerUltimos5Pasajeros();
+        List<Pasajero> resultado = pasajeroServiceImp.obtenerUltimos5Pasajeros();
         assertFalse(resultado.isEmpty());
         verify(pasajeroRepository, times(1)).getLast5Passengers();
     }
@@ -95,7 +94,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerPasajerosConReservas() {
         when(pasajeroRepository.getPassengersWithReservations()).thenReturn(Arrays.asList(pasajero));
-        List<Pasajero> resultado = pasajeroService.obtenerPasajerosConReservas();
+        List<Pasajero> resultado = pasajeroServiceImp.obtenerPasajerosConReservas();
         assertFalse(resultado.isEmpty());
         verify(pasajeroRepository, times(1)).getPassengersWithReservations();
     }
@@ -103,7 +102,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerPasajerosSinReservas() {
         when(pasajeroRepository.findPassengersWithoutReservations()).thenReturn(Arrays.asList(pasajero));
-        List<Pasajero> resultado = pasajeroService.obtenerPasajerosSinReservas();
+        List<Pasajero> resultado = pasajeroServiceImp.obtenerPasajerosSinReservas();
         assertFalse(resultado.isEmpty());
         verify(pasajeroRepository, times(1)).findPassengersWithoutReservations();
     }
@@ -111,7 +110,7 @@ class PasajeroServiceTest {
     @Test
     void obtenerPasajeroConMasReservas() {
         when(pasajeroRepository.getPassengerWithMoreBookings()).thenReturn(pasajero);
-        Optional<Pasajero> resultado = pasajeroService.obtenerPasajeroConMasReservas();
+        Optional<Pasajero> resultado = pasajeroServiceImp.obtenerPasajeroConMasReservas();
         assertTrue(resultado.isPresent());
         assertEquals("Sebastian Lopez", resultado.get().getNombre());
         verify(pasajeroRepository, times(1)).getPassengerWithMoreBookings();

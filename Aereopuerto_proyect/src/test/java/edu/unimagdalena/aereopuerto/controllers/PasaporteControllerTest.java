@@ -2,7 +2,7 @@ package edu.unimagdalena.aereopuerto.controllers;
 
 import edu.unimagdalena.aereopuerto.entities.Pasajero;
 import edu.unimagdalena.aereopuerto.entities.Pasaporte;
-import edu.unimagdalena.aereopuerto.services.PasaporteService;
+import edu.unimagdalena.aereopuerto.services.PasaporteServiceImp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,14 +26,14 @@ class PasaporteControllerTest {
     private MockMvc mockMvc; // Simula llamadas HTTP al controlador
 
     @MockBean
-    private PasaporteService pasaporteService; // Simula la lógica de negocio
+    private PasaporteServiceImp pasaporteServiceImp; // Simula la lógica de negocio
 
     @Test
     void obtenerPasaportePorId_Existe() throws Exception {
         // Simulamos un pasaporte con ID 1
         Pasajero pasajero = new Pasajero();
         Pasaporte pasaporte = new Pasaporte(1L, "Juan Pérez", pasajero);
-        Mockito.when(pasaporteService.obtenerPorId(1L)).thenReturn(Optional.of(pasaporte));
+        Mockito.when(pasaporteServiceImp.obtenerPorId(1L)).thenReturn(Optional.of(pasaporte));
 
         mockMvc.perform(get("/api/pasaportes/1") // Simula GET /api/pasaportes/1
                         .contentType(MediaType.APPLICATION_JSON))
@@ -46,7 +46,7 @@ class PasaporteControllerTest {
 
     @Test
     void obtenerPasaportePorId_NoExiste() throws Exception {
-        Mockito.when(pasaporteService.obtenerPorId(99L)).thenReturn(Optional.empty());
+        Mockito.when(pasaporteServiceImp.obtenerPorId(99L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/pasaportes/99") // Simula GET /api/pasaportes/99
                         .contentType(MediaType.APPLICATION_JSON))

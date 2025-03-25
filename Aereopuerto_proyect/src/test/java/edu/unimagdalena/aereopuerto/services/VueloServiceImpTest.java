@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -19,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class VueloServiceTest {
+class VueloServiceImpTest {
 
     @Mock
     private VueloRepository vueloRepository;
 
     @InjectMocks
-    private VueloService vueloService;
+    private VueloServiceImp vueloServiceImp;
 
     private Vuelo vuelo;
 
@@ -38,7 +37,7 @@ class VueloServiceTest {
     void obtenerTodos() {
         when(vueloRepository.findAll()).thenReturn(Arrays.asList(vuelo));
 
-        List<Vuelo> resultado = vueloService.obtenerTodos();
+        List<Vuelo> resultado = vueloServiceImp.obtenerTodos();
 
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
@@ -49,7 +48,7 @@ class VueloServiceTest {
     void obtenerPorId() {
         when(vueloRepository.findById(1L)).thenReturn(Optional.of(vuelo));
 
-        Optional<Vuelo> resultado = vueloService.obtenerPorId(1L);
+        Optional<Vuelo> resultado = vueloServiceImp.obtenerPorId(1L);
 
         assertTrue(resultado.isPresent());
         assertEquals("Cali", resultado.get().getOrigen());
@@ -60,7 +59,7 @@ class VueloServiceTest {
     void obtenerPorNumeroVuelo() {
         when(vueloRepository.findVueloByNumeroVuelo(vuelo.getNumeroVuelo())).thenReturn(vuelo);
 
-        Optional<Vuelo> resultado = vueloService.obtenerPorNumeroVuelo(vuelo.getNumeroVuelo());
+        Optional<Vuelo> resultado = vueloServiceImp.obtenerPorNumeroVuelo(vuelo.getNumeroVuelo());
 
         assertTrue(resultado.isPresent());
         assertEquals("Santa Marta", resultado.get().getDestino());
@@ -71,7 +70,7 @@ class VueloServiceTest {
     void guardar() {
         when(vueloRepository.save(any(Vuelo.class))).thenReturn(vuelo);
 
-        Vuelo resultado = vueloService.guardar(vuelo);
+        Vuelo resultado = vueloServiceImp.guardar(vuelo);
 
         assertNotNull(resultado);
         assertEquals("Cali", resultado.getOrigen());
@@ -82,7 +81,7 @@ class VueloServiceTest {
     void eliminar() {
         doNothing().when(vueloRepository).deleteById(1L);
 
-        vueloService.eliminar(1L);
+        vueloServiceImp.eliminar(1L);
 
         verify(vueloRepository, times(1)).deleteById(1L);
     }
@@ -91,7 +90,7 @@ class VueloServiceTest {
     void buscarPorOrigen() {
         when(vueloRepository.findVuelosByOrigen("Cali")).thenReturn(Arrays.asList(vuelo));
 
-        List<Vuelo> resultado = vueloService.buscarPorOrigen("Cali");
+        List<Vuelo> resultado = vueloServiceImp.buscarPorOrigen("Cali");
 
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
@@ -102,7 +101,7 @@ class VueloServiceTest {
     void buscarPorDestino() {
         when(vueloRepository.findVuelosByDestino("Santa Marta")).thenReturn(Arrays.asList(vuelo));
 
-        List<Vuelo> resultado = vueloService.buscarPorDestino("Santa Marta");
+        List<Vuelo> resultado = vueloServiceImp.buscarPorDestino("Santa Marta");
 
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -19,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PasaporteServiceTest {
+class PasaporteServiceImpTest {
 
     @Mock
     private PasaporteRepository pasaporteRepository;
 
     @InjectMocks
-    private PasaporteService pasaporteService;
+    private PasaporteServiceImp pasaporteServiceImp;
 
     private Pasaporte pasaporte;
 
@@ -38,7 +37,7 @@ class PasaporteServiceTest {
     void obtenerTodos() {
         when(pasaporteRepository.findAll()).thenReturn(Arrays.asList(pasaporte));
 
-        List<Pasaporte> resultado = pasaporteService.obtenerTodos();
+        List<Pasaporte> resultado = pasaporteServiceImp.obtenerTodos();
 
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
@@ -49,7 +48,7 @@ class PasaporteServiceTest {
     void obtenerPorId() {
         when(pasaporteRepository.findById(1L)).thenReturn(Optional.of(pasaporte));
 
-        Optional<Pasaporte> resultado = pasaporteService.obtenerPorId(1L);
+        Optional<Pasaporte> resultado = pasaporteServiceImp.obtenerPorId(1L);
 
         assertTrue(resultado.isPresent());
         assertEquals("123456789", resultado.get().getNumero());
@@ -60,7 +59,7 @@ class PasaporteServiceTest {
     void guardar() {
         when(pasaporteRepository.save(any(Pasaporte.class))).thenReturn(pasaporte);
 
-        Pasaporte resultado = pasaporteService.guardar(pasaporte);
+        Pasaporte resultado = pasaporteServiceImp.guardar(pasaporte);
 
         assertNotNull(resultado);
         assertEquals("123456789", resultado.getNumero());
@@ -71,7 +70,7 @@ class PasaporteServiceTest {
     void eliminar() {
         doNothing().when(pasaporteRepository).deleteById(1L);
 
-        pasaporteService.eliminar(1L);
+        pasaporteServiceImp.eliminar(1L);
 
         verify(pasaporteRepository, times(1)).deleteById(1L);
     }
